@@ -3,8 +3,9 @@
 A read-only NIP-5D napplet that shows an auto-playing carousel of the five most
 recent Nostr highlights ([kind 9802](https://nostrbook.dev/kinds/9802) / NIP-84).
 
-It loads events through `outbox.query` and never signs, stores, or opens relays
-itself. There are no controls; the carousel advances on its own.
+It loads events through the shell-mediated `relay.query` and never signs,
+stores, or opens relay sockets itself. There are no controls; the carousel
+advances on its own.
 
 Napplets are sandboxed iframe apps. The shell injects `window.napplet`; this app
 uses `@napplet/sdk` for the outbox boundary.

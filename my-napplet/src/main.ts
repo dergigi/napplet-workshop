@@ -1,5 +1,5 @@
 import '@napplet/shim';
-import { outbox, themeGet, themeOnChanged, type NostrEvent, type Theme } from '@napplet/sdk';
+import { relay, themeGet, themeOnChanged, type NostrEvent, type Theme } from '@napplet/sdk';
 import './styles.css';
 
 const HIGHLIGHT_KIND = 9802;
@@ -243,10 +243,7 @@ function scheduleAdvance(): void {
 }
 
 async function loadHighlights(): Promise<void> {
-  const { events, error, incomplete } = await outbox.query(
-    [{ kinds: [HIGHLIGHT_KIND], limit: LIMIT }],
-    { limit: LIMIT, timeoutMs: 8000 },
-  );
+  const events = await relay.query([{ kinds: [HIGHLIGHT_KIND], limit: LIMIT }]);
 
   const items = events
     .map(toHighlight)
@@ -255,14 +252,7 @@ async function loadHighlights(): Promise<void> {
     .slice(0, LIMIT);
 
   if (items.length === 0) {
-    setState(
-      error
-        ? `Could not load highlights. ${error}`
-        : incomplete
-          ? 'No highlights came back yet. The shell may still be finding relays.'
-          : 'No recent highlights found.',
-      error ? 'error' : 'idle',
-    );
+    setState('No recent highlights found.');
     return;
   }
 
