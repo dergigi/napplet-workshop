@@ -1,6 +1,6 @@
 # Napplet Workshop
 
-Projects built while learning the NIP-5D napplet stack.
+Projects built while learning the [NIP-5D](https://nostrcompass.org/en/topics/nip-5d/) napplet stack.
 
 ## Resources
 
