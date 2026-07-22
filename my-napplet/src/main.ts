@@ -67,7 +67,28 @@ function compactSource(value: string): string {
   return shortHex(value);
 }
 
-function toHighlight(event: NostrEvent): Highlight | null {
+function unwrapEvent(value: unknown): NostrEvent | null {
+  if (!value || typeof value !== 'object') return null;
+  const candidate = 'event' in value ? value.event : value;
+  if (!candidate || typeof candidate !== 'object') return null;
+
+  const event = candidate as Partial<NostrEvent>;
+  if (
+    typeof event.id !== 'string' ||
+    typeof event.pubkey !== 'string' ||
+    typeof event.created_at !== 'number' ||
+    typeof event.content !== 'string' ||
+    !Array.isArray(event.tags)
+  ) {
+    return null;
+  }
+
+  return event as NostrEvent;
+}
+
+function toHighlight(value: unknown): Highlight | null {
+  const event = unwrapEvent(value);
+  if (!event) return null;
   const content = event.content.trim();
   if (!content) return null;
   return {
