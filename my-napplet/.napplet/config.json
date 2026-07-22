@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "sourceDir": ".",
+  "relays": [
+    "wss://relay.damus.io"
+  ],
+  "blossomServers": [
+    "https://cdn.satellite.earth"
+  ],
+  "defaultTarget": "named",
+  "named": [
+    "my-napplet"
+  ],
+  "discover": {
+    "enabled": true,
+    "roots": [
+      "."
+    ]
+  },
+  "signing": {
+    "mode": "interactive"
+  },
+  "conformance": {
+    "command": "napplet-conformance"
+  },
+  "paja": {
+    "command": "kehto"
+  },
+  "metadata": {
+    "name": "my-napplet",
+    "title": "My Napplet",
+    "archetypes": [
+      {
+        "slug": "note",
+        "protocol": "NAP-4"
+      }
+    ]
+  }
+}

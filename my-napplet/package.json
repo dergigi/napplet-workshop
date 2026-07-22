@@ -1,0 +1,33 @@
+{
+  "name": "my-napplet",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "type-check": "tsc --noEmit",
+    "verify": "pnpm type-check && pnpm build",
+    "test:conformance": "pnpm build && napplet-conformance ./dist",
+    "test:conformance:ui": "napplet-conformance --ui . --exec \"vite build --watch\""
+  },
+  "dependencies": {
+    "@napplet/sdk": "^0.12.0",
+    "@napplet/shim": "^0.13.0"
+  },
+  "devDependencies": {
+    "@napplet/conformance-cli": "^0.2.1",
+    "@napplet/vite-plugin": "^0.8.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.2",
+    "vite-plugin-singlefile": "^2.3.3"
+  },
+  "packageManager": "pnpm@10.8.0",
+  "license": "MIT",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}
