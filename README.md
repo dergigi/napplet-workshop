@@ -2,8 +2,13 @@
 
 Projects built while learning the NIP-5D napplet stack.
 
+## Resources
+
 - [Workshop guide](http://5rnyv42gd5hia53curyrl58o9vnouebwyt4gxdice14ialcs4vnapplets1.nsite.lol)
 - [napplet.run](https://napplet.run/)
+
+## Napplets
+
 - [Highlights carousel](./highlights-carousel) by Gigi
 - [Send Tweet](./send-tweet) by Gigi
 
