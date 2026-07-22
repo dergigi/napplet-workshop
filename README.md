@@ -6,6 +6,7 @@ Projects built while learning the NIP-5D napplet stack.
 
 - [Workshop guide](http://5rnyv42gd5hia53curyrl58o9vnouebwyt4gxdice14ialcs4vnapplets1.nsite.lol)
 - [napplet.run](https://napplet.run/)
+- [noStrudel napplet feature branch](https://2tlb607yn9ai420jf20b3ge69so4zeoi0bmj6iri8u8n067hmgnapplet.nsite.lol/tools/napplets) for loading napplets in the browser
 
 ## Napplets
 
