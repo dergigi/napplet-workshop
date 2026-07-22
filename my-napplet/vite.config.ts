@@ -13,7 +13,7 @@ export default defineConfig({
     // then content-addresses it for the NIP-5A manifest.
     viteSingleFile(),
     nip5aManifest({
-      nappletType: 'highlights-carousel',
+      nappletType: 'highlights',
       artifactMode: 'single-file',
       requires: ['outbox'],
     }),

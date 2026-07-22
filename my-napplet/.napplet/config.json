@@ -9,7 +9,7 @@
   ],
   "defaultTarget": "named",
   "named": [
-    "highlights-carousel"
+    "highlights"
   ],
   "discover": {
     "enabled": true,
@@ -27,7 +27,7 @@
     "command": "kehto"
   },
   "metadata": {
-    "name": "highlights-carousel",
+    "name": "highlights",
     "title": "Highlights",
     "description": "Auto-playing carousel of the five most recent Nostr highlights (kind 9802).",
     "archetypes": [
