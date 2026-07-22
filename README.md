@@ -7,6 +7,7 @@ Projects built while learning the [NIP-5D](https://nostrcompass.org/en/topics/ni
 - [Workshop guide](http://5rnyv42gd5hia53curyrl58o9vnouebwyt4gxdice14ialcs4vnapplets1.nsite.lol)
 - [napplet.run](https://napplet.run/)
 - [noStrudel napplet feature branch](https://2tlb607yn9ai420jf20b3ge69so4zeoi0bmj6iri8u8n067hmgnapplet.nsite.lol/tools/napplets) for loading napplets in the browser
+- [Explore published napplets in noStrudel](https://2tlb607yn9ai420jf20b3ge69so4zeoi0bmj6iri8u8n067hmgnapplet.nsite.lol/tools/napplets/naddr1qqyxuctswpkxjeneqgs22d4afkvyhn9ryhpek6gphyxde2u9v9wlyra0hwvxrmrxavjm20qrqsqqpzfefw3c95)
 
 ## Napplets
 
