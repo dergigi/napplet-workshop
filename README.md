@@ -1,6 +1,6 @@
 # Napplet Workshop
 
-Projects built while learning the [NIP-5D](https://nostrcompass.org/en/topics/nip-5d/) napplet stack.
+Projects built during a [SEC-08](https://sovereignengineering.io/) workshop on the [NIP-5D](https://nostrcompass.org/en/topics/nip-5d/) napplet stack.
 
 ## Resources
 
