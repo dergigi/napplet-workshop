@@ -18,7 +18,8 @@
     ]
   },
   "signing": {
-    "mode": "interactive"
+    "mode": "interactive",
+    "keyReference": "highlights"
   },
   "conformance": {
     "command": "napplet-conformance"
