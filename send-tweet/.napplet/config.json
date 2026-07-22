@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "sourceDir": ".",
+  "relays": [
+    "wss://relay.damus.io"
+  ],
+  "blossomServers": [
+    "https://cdn.satellite.earth"
+  ],
+  "defaultTarget": "named",
+  "named": [
+    "send-tweet"
+  ],
+  "discover": {
+    "enabled": true,
+    "roots": [
+      "."
+    ]
+  },
+  "signing": {
+    "mode": "interactive"
+  },
+  "conformance": {
+    "command": "napplet-conformance"
+  },
+  "paja": {
+    "command": "kehto"
+  },
+  "metadata": {
+    "name": "send-tweet",
+    "title": "Send Tweet",
+    "description": "A tiny kind-1 Nostr composer.",
+    "archetypes": [
+      {
+        "slug": "note",
+        "protocol": "NAP-4"
+      }
+    ]
+  }
+}

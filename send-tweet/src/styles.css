@@ -1,0 +1,266 @@
+:root {
+  color-scheme: light;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #f4f6f8;
+  color: #17212b;
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --surface: #ffffff;
+  --surface-muted: #eef2f6;
+  --border: #d7dee7;
+  --muted: #647487;
+  --danger: #b42318;
+  --warning: #9a6700;
+  --success: #16703b;
+  --napplet-text-selection: none;
+}
+
+:root[data-accent="green"] {
+  --accent: #178a52;
+  --accent-strong: #116d40;
+}
+
+:root[data-accent="amber"] {
+  --accent: #b45309;
+  --accent-strong: #92400e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:where(html, body, body *) {
+  -webkit-user-select: var(--napplet-text-selection, none);
+  user-select: var(--napplet-text-selection, none);
+}
+
+:where(input, textarea, select, [contenteditable], [data-napplet-select="text"]) {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+:where([data-napplet-select="all"]) {
+  -webkit-user-select: all;
+  user-select: all;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+button {
+  min-height: 2.5rem;
+  border: 1px solid #1f2937;
+  border-radius: 6px;
+  background: #1f2937;
+  color: #ffffff;
+  padding: 0.6rem 0.85rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #111827;
+}
+
+button:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  outline-offset: 2px;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.workspace {
+  width: min(1040px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.masthead,
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.25rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  line-height: 1.05;
+}
+
+h2 {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  white-space: nowrap;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.status-idle {
+  color: #334155;
+  background: #e2e8f0;
+}
+
+.status-ok {
+  color: var(--success);
+  background: #ddf7e8;
+}
+
+.status-warn {
+  color: var(--warning);
+  background: #fff3c4;
+}
+
+.status-error {
+  color: var(--danger);
+  background: #fee4e2;
+}
+
+.panel {
+  padding: 1rem;
+}
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.capability-grid dt,
+.capability-grid dd {
+  margin: 0;
+}
+
+.capability-grid dt {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.capability-grid dd {
+  min-height: 2rem;
+  border-radius: 6px;
+  background: var(--surface-muted);
+  padding: 0.45rem 0.55rem;
+  overflow-wrap: anywhere;
+  font-weight: 700;
+}
+
+.capability-grid dd[data-state="on"] {
+  color: var(--success);
+}
+
+.capability-grid dd[data-state="off"] {
+  color: var(--muted);
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.split-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem;
+  color: #17212b;
+}
+
+.mono {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.output {
+  min-height: 12rem;
+  max-height: 24rem;
+  overflow: auto;
+  margin: 0;
+  border-radius: 6px;
+  background: #0f172a;
+  color: #e5edf7;
+  padding: 1rem;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding: 1rem;
+  }
+
+  .masthead,
+  .split-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .masthead {
+    display: grid;
+  }
+
+  .capability-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
