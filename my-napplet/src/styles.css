@@ -174,6 +174,34 @@ body {
   letter-spacing: 0.02em;
 }
 
+.text-link,
+.source {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 160ms ease;
+}
+
+.text-link:hover,
+.source:hover {
+  text-decoration-color: var(--accent);
+}
+
+.text-link:focus-visible,
+.source:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 0.22rem;
+  border-radius: 0.1rem;
+}
+
 .author {
   display: flex;
   min-width: 0;
@@ -202,7 +230,7 @@ body {
   object-fit: cover;
 }
 
-.byline strong {
+.text-link {
   color: var(--ink);
   font-weight: 650;
 }

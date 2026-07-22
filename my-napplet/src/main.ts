@@ -7,6 +7,7 @@ import {
   type NostrEvent,
   type Theme,
 } from '@napplet/sdk';
+import { nip19 } from 'nostr-tools';
 import './styles.css';
 
 const HIGHLIGHT_KIND = 9802;
@@ -17,9 +18,15 @@ type Highlight = {
   id: string;
   content: string;
   context: string | null;
-  source: string | null;
+  source: Source | null;
   author: string;
   createdAt: number;
+};
+
+type Source = {
+  type: 'url' | 'event';
+  value: string;
+  relay?: string;
 };
 
 type Profile = {
@@ -54,8 +61,19 @@ function tagValue(event: NostrEvent, name: string): string | null {
   return tag?.[1] ?? null;
 }
 
-function sourceFrom(event: NostrEvent): string | null {
-  return tagValue(event, 'r') ?? tagValue(event, 'a') ?? tagValue(event, 'e');
+function sourceFrom(event: NostrEvent): Source | null {
+  const url = event.tags.find((entry) => entry[0] === 'r' && entry[1]);
+  if (url) return { type: 'url', value: url[1] };
+
+  const reference = event.tags.find(
+    (entry) => (entry[0] === 'a' || entry[0] === 'e') && entry[1],
+  );
+  if (!reference) return null;
+  return {
+    type: 'event',
+    value: reference[1],
+    ...(reference[2] ? { relay: reference[2] } : {}),
+  };
 }
 
 function shortHex(value: string): string {
@@ -75,6 +93,45 @@ function compactSource(value: string): string {
     }
   }
   return shortHex(value);
+}
+
+type LinkSurface = {
+  open: (url: string) => Promise<unknown>;
+};
+
+function openExternal(url: string): void {
+  const surface = (window as Window & { napplet?: { link?: LinkSurface } }).napplet?.link;
+  if (!surface) return;
+  void surface.open(url);
+}
+
+function njumpProfile(pubkey: string): string {
+  return `https://njump.to/${nip19.npubEncode(pubkey)}`;
+}
+
+function njumpEvent(source: Source): string {
+  const relays = source.relay ? [source.relay] : [];
+  if (/^[0-9a-f]{64}$/i.test(source.value)) {
+    return `https://njump.to/${nip19.neventEncode({ id: source.value, relays })}`;
+  }
+
+  const [kindValue, pubkey, ...identifierParts] = source.value.split(':');
+  const kind = Number(kindValue);
+  const identifier = identifierParts.join(':');
+  if (
+    Number.isInteger(kind) &&
+    /^[0-9a-f]{64}$/i.test(pubkey) &&
+    identifier.length > 0
+  ) {
+    return `https://njump.to/${nip19.naddrEncode({
+      kind,
+      pubkey,
+      identifier,
+      relays,
+    })}`;
+  }
+
+  return `https://njump.to/${encodeURIComponent(source.value)}`;
 }
 
 function unwrapEvent(value: unknown): NostrEvent | null {
@@ -271,17 +328,27 @@ function buildSlide(highlight: Highlight, index: number): HTMLElement {
 
   const byline = document.createElement('p');
   byline.className = 'byline';
-  const who = document.createElement('strong');
+  const who = document.createElement('button');
+  who.className = 'text-link';
+  who.type = 'button';
   who.textContent = profile?.name ?? shortHex(highlight.author);
+  who.addEventListener('click', () => openExternal(njumpProfile(highlight.author)));
   byline.append('highlighted by ', who);
 
   author.append(avatar, byline);
   footer.append(author);
 
-  if (highlight.source) {
-    const source = document.createElement('p');
+  const sourceRef = highlight.source;
+  if (sourceRef) {
+    const source = document.createElement('button');
     source.className = 'source';
-    source.textContent = compactSource(highlight.source);
+    source.type = 'button';
+    source.textContent = compactSource(sourceRef.value);
+    source.addEventListener('click', () => {
+      openExternal(
+        sourceRef.type === 'url' ? sourceRef.value : njumpEvent(sourceRef),
+      );
+    });
     footer.append(source);
   }
 

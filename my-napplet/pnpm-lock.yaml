@@ -14,6 +14,9 @@ importers:
       '@napplet/shim':
         specifier: ^0.13.0
         version: 0.13.0
+      nostr-tools:
+        specifier: ^2.24.0
+        version: 2.24.1(typescript@5.9.3)
     devDependencies:
       '@napplet/conformance-cli':
         specifier: ^0.2.1
@@ -412,8 +415,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  nostr-tools@2.23.5:
-    resolution: {integrity: sha512-Fa7ZlUdjfUW1P4E7H3yBexhOHYi18XNyvd2n7eNHkYR085xADX6Y8V8Vm7nT/XQajaFOBrptXmVIGkJ2E4vfVw==}
+  nostr-tools@2.24.1:
+    resolution: {integrity: sha512-KdrKjC74n/rr6J3eCSfZj8dcbZFvolHYe4S22SefNZ5YWbhHiB0KL/mmJjEZ0u6B9mZK0YcQtl+WQ46KzwapeQ==}
     peerDependencies:
       typescript: '>=5.0.0'
     peerDependenciesMeta:
@@ -636,7 +639,7 @@ snapshots:
 
   '@napplet/vite-plugin@0.8.1(typescript@5.9.3)(vite@6.4.3)':
     dependencies:
-      nostr-tools: 2.23.5(typescript@5.9.3)
+      nostr-tools: 2.24.1(typescript@5.9.3)
       vite: 6.4.3
     transitivePeerDependencies:
       - typescript
@@ -795,7 +798,7 @@ snapshots:
 
   nanoid@3.3.12: {}
 
-  nostr-tools@2.23.5(typescript@5.9.3):
+  nostr-tools@2.24.1(typescript@5.9.3):
     dependencies:
       '@noble/ciphers': 2.1.1
       '@noble/curves': 2.0.1
