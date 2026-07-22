@@ -2,7 +2,17 @@
   "version": 1,
   "sourceDir": ".",
   "relays": [
-    "wss://relay.damus.io"
+    "wss://relay.damus.io",
+    "wss://relay.primal.net",
+    "wss://nos.lol",
+    "wss://relay.nostr.band",
+    "wss://relay.snort.social",
+    "wss://purplepag.es",
+    "wss://nostr.wine",
+    "wss://relay.nostr.net",
+    "wss://nostr.mom",
+    "wss://wot.dergigi.com",
+    "wss://relay.dergigi.com"
   ],
   "blossomServers": [
     "https://cdn.satellite.earth"
