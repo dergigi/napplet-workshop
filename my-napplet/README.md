@@ -5,7 +5,8 @@ recent Nostr highlights ([kind 9802](https://nostrbook.dev/kinds/9802) / NIP-84)
 
 It loads events through the shell-mediated `relay.query` and never signs,
 stores, or opens relay sockets itself. There are no controls; the carousel
-advances on its own.
+advances on its own. Highlight authors are resolved from kind-0 profile events;
+profile images are loaded through the shell's `resource` interface.
 
 Napplets are sandboxed iframe apps. The shell injects `window.napplet`; this app
 uses `@napplet/sdk` for the outbox boundary.

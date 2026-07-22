@@ -1,5 +1,12 @@
 import '@napplet/shim';
-import { relay, themeGet, themeOnChanged, type NostrEvent, type Theme } from '@napplet/sdk';
+import {
+  relay,
+  resource,
+  themeGet,
+  themeOnChanged,
+  type NostrEvent,
+  type Theme,
+} from '@napplet/sdk';
 import './styles.css';
 
 const HIGHLIGHT_KIND = 9802;
@@ -11,8 +18,13 @@ type Highlight = {
   content: string;
   context: string | null;
   source: string | null;
-  author: string | null;
+  author: string;
   createdAt: number;
+};
+
+type Profile = {
+  name: string;
+  picture: string | null;
 };
 
 const els = {
@@ -27,6 +39,8 @@ const els = {
 let activeIndex = 0;
 let timer = 0;
 let highlights: Highlight[] = [];
+let profiles = new Map<string, Profile>();
+const avatarUrls = new Set<string>();
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function requireElement<T extends HTMLElement>(selector: string): T {
@@ -42,11 +56,6 @@ function tagValue(event: NostrEvent, name: string): string | null {
 
 function sourceFrom(event: NostrEvent): string | null {
   return tagValue(event, 'r') ?? tagValue(event, 'a') ?? tagValue(event, 'e');
-}
-
-function authorFrom(event: NostrEvent): string | null {
-  const tagged = event.tags.find((entry) => entry[0] === 'p' && entry[1]);
-  return tagged?.[1] ?? event.pubkey;
 }
 
 function shortHex(value: string): string {
@@ -97,9 +106,51 @@ function toHighlight(value: unknown): Highlight | null {
     content,
     context: tagValue(event, 'context'),
     source: sourceFrom(event),
-    author: authorFrom(event),
+    author: event.pubkey,
     createdAt: event.created_at,
   };
+}
+
+function parseProfile(event: NostrEvent): Profile | null {
+  try {
+    const metadata = JSON.parse(event.content) as Record<string, unknown>;
+    const name = [metadata.display_name, metadata.displayName, metadata.name].find(
+      (value): value is string => typeof value === 'string' && value.trim().length > 0,
+    );
+    const picture =
+      typeof metadata.picture === 'string' && metadata.picture.startsWith('https://')
+        ? metadata.picture
+        : null;
+    return {
+      name: name?.trim() ?? shortHex(event.pubkey),
+      picture,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function loadProfiles(items: Highlight[]): Promise<Map<string, Profile>> {
+  const authors = [...new Set(items.map((item) => item.author))];
+  const events = await relay.query([{ kinds: [0], authors, limit: authors.length }]);
+  const latest = new Map<string, NostrEvent>();
+
+  for (const value of events) {
+    const event = unwrapEvent(value);
+    if (!event || event.kind !== 0 || !authors.includes(event.pubkey)) continue;
+    const current = latest.get(event.pubkey);
+    if (!current || event.created_at > current.created_at) latest.set(event.pubkey, event);
+  }
+
+  return new Map(
+    authors.map((author) => {
+      const event = latest.get(author);
+      return [
+        author,
+        (event && parseProfile(event)) ?? { name: shortHex(author), picture: null },
+      ];
+    }),
+  );
 }
 
 function setState(message: string, kind: 'idle' | 'error' = 'idle'): void {
@@ -166,13 +217,24 @@ function buildSlide(highlight: Highlight, index: number): HTMLElement {
   const footer = document.createElement('footer');
   footer.className = 'footer';
 
+  const profile = profiles.get(highlight.author);
+  const author = document.createElement('div');
+  author.className = 'author';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.dataset.author = highlight.author;
+  avatar.setAttribute('aria-hidden', 'true');
+  avatar.textContent = (profile?.name ?? highlight.author).slice(0, 1).toUpperCase();
+
   const byline = document.createElement('p');
   byline.className = 'byline';
   const who = document.createElement('strong');
-  who.textContent = highlight.author ? shortHex(highlight.author) : 'unknown';
-  byline.append('highlighted · ', who);
+  who.textContent = profile?.name ?? shortHex(highlight.author);
+  byline.append('highlighted by ', who);
 
-  footer.append(byline);
+  author.append(avatar, byline);
+  footer.append(author);
 
   if (highlight.source) {
     const source = document.createElement('p');
@@ -184,6 +246,28 @@ function buildSlide(highlight: Highlight, index: number): HTMLElement {
   card.append(footer);
   slide.append(card);
   return slide;
+}
+
+async function loadAvatars(items: Highlight[]): Promise<void> {
+  const entries = [...new Set(items.map((item) => item.author))]
+    .map((author) => [author, profiles.get(author)?.picture] as const)
+    .filter((entry): entry is readonly [string, string] => Boolean(entry[1]));
+
+  await Promise.allSettled(
+    entries.map(async ([author, picture]) => {
+      const blob = await resource.bytes(picture);
+      const url = URL.createObjectURL(blob);
+      avatarUrls.add(url);
+      document.querySelectorAll<HTMLElement>(`.avatar[data-author="${author}"]`).forEach(
+        (avatar) => {
+          const image = document.createElement('img');
+          image.alt = '';
+          image.src = url;
+          avatar.replaceChildren(image);
+        },
+      );
+    }),
+  );
 }
 
 function renderCarousel(items: Highlight[]): void {
@@ -256,7 +340,16 @@ async function loadHighlights(): Promise<void> {
     return;
   }
 
+  try {
+    profiles = await loadProfiles(items);
+  } catch {
+    profiles = new Map(
+      items.map((item) => [item.author, { name: shortHex(item.author), picture: null }]),
+    );
+  }
+
   renderCarousel(items);
+  void loadAvatars(items);
 }
 
 wireTheme();
@@ -267,4 +360,5 @@ loadHighlights().catch((error: unknown) => {
 
 window.addEventListener('beforeunload', () => {
   window.clearTimeout(timer);
+  avatarUrls.forEach((url) => URL.revokeObjectURL(url));
 });

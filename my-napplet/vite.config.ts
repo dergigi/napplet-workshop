@@ -24,7 +24,7 @@ export default defineConfig({
     nip5aManifest({
       nappletType: 'highlights',
       artifactMode: 'single-file',
-      requires: ['relay'],
+      requires: ['relay', 'resource'],
     }),
   ],
 });
