@@ -11,6 +11,9 @@ importers:
       '@napplet/sdk':
         specifier: ^0.12.0
         version: 0.12.0
+      '@napplet/shim':
+        specifier: ^0.13.0
+        version: 0.13.0
     devDependencies:
       '@napplet/conformance-cli':
         specifier: ^0.2.1
@@ -206,6 +209,9 @@ packages:
 
   '@napplet/sdk@0.12.0':
     resolution: {integrity: sha512-5xR/rYeoeKAo/LNOXYMySMYWEUzbP4pRR2j8OAzwVGdVcj2xacduL3WiDNaemgF+KVljgiIaaw1X67luEIEdLA==}
+
+  '@napplet/shim@0.13.0':
+    resolution: {integrity: sha512-xQyQ15g03WYr5dM/+vif/Q7bArx58BIUm6XSVmzz+sb7pdw/RPqlqUY6/9cxVhlAiWpAsRmOMwB5k8lv9dVzLQ==}
 
   '@napplet/vite-plugin@0.8.1':
     resolution: {integrity: sha512-FjzQZtaujsQUZP1SBa/mTFyYJI2A7ZwWa3SFC3Wn5S+efeAw4UBnIbWj5QEb698c8myxSPMy5HXpEwSh9st27Q==}
@@ -615,6 +621,13 @@ snapshots:
       '@napplet/core': 0.12.0
 
   '@napplet/sdk@0.12.0':
+    dependencies:
+      '@napplet/core': 0.12.0
+      '@napplet/nap': 0.12.0
+    transitivePeerDependencies:
+      - json-schema-to-ts
+
+  '@napplet/shim@0.13.0':
     dependencies:
       '@napplet/core': 0.12.0
       '@napplet/nap': 0.12.0

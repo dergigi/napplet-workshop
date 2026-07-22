@@ -1,3 +1,4 @@
+import '@napplet/shim';
 import { outbox, themeGet, themeOnChanged, type NostrEvent, type Theme } from '@napplet/sdk';
 import './styles.css';
 
