@@ -7,6 +7,7 @@
   --muted: #8b9aab;
   --line: rgb(232 238 246 / 14%);
   --quote: #f3f7fc;
+  --marker: #f4d65e;
   --accent: #6fd6c4;
   --accent-soft: rgb(111 214 196 / 22%);
   --card: rgb(16 24 34 / 72%);
@@ -127,33 +128,31 @@ body {
   backdrop-filter: blur(16px);
 }
 
-.mark {
-  display: block;
-  margin-bottom: clamp(0.7rem, 2vw, 1.1rem);
-  color: var(--accent);
-  font-family: var(--serif);
-  font-size: clamp(2.4rem, 8vw, 4rem);
-  line-height: 0.8;
-  opacity: 0.85;
-}
-
 .quote {
   margin: 0;
   color: var(--quote);
   font-family: var(--serif);
-  font-size: clamp(1.25rem, 4.2vw, 2.35rem);
-  font-weight: 500;
-  line-height: 1.28;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.1rem, 3.5vw, 1.85rem);
+  font-weight: 450;
+  line-height: 1.48;
+  letter-spacing: -0.012em;
   text-wrap: pretty;
 }
 
-.context {
-  margin: 1rem 0 0;
-  color: var(--muted);
-  font-size: clamp(0.82rem, 2vw, 0.95rem);
-  line-height: 1.55;
-  text-wrap: pretty;
+.quote mark {
+  padding: 0.03em 0.12em;
+  color: #171814;
+  background:
+    linear-gradient(
+      178deg,
+      transparent 9%,
+      color-mix(in srgb, var(--marker) 88%, transparent) 9%,
+      color-mix(in srgb, var(--marker) 92%, transparent) 88%,
+      transparent 88%
+    );
+  border-radius: 0.08em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .footer {
@@ -279,13 +278,9 @@ body {
     padding: 1.1rem 1.15rem;
   }
 
-  .context {
-    display: none;
-  }
-
-  .mark {
-    margin-bottom: 0.45rem;
-    font-size: 2rem;
+  .quote {
+    font-size: clamp(0.95rem, 4.5vw, 1.2rem);
+    line-height: 1.4;
   }
 }
 

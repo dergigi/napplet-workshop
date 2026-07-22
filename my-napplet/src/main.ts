@@ -130,6 +130,64 @@ function parseProfile(event: NostrEvent): Profile | null {
   }
 }
 
+function normalizeWithMap(value: string): { text: string; map: number[] } {
+  let text = '';
+  const map: number[] = [];
+
+  for (let index = 0; index < value.length; index += 1) {
+    const character = value[index];
+    if (/\s/.test(character)) {
+      if (text.length > 0 && !text.endsWith(' ')) {
+        text += ' ';
+        map.push(index);
+      }
+      continue;
+    }
+    text += character.toLocaleLowerCase();
+    map.push(index);
+  }
+
+  if (text.endsWith(' ')) {
+    text = text.slice(0, -1);
+    map.pop();
+  }
+
+  return { text, map };
+}
+
+function findHighlightRange(passage: string, selection: string): [number, number] | null {
+  const normalizedPassage = normalizeWithMap(passage);
+  const normalizedSelection = normalizeWithMap(selection).text;
+  const start = normalizedPassage.text.indexOf(normalizedSelection);
+  if (start < 0 || normalizedSelection.length === 0) return null;
+
+  const originalStart = normalizedPassage.map[start];
+  const originalEnd =
+    normalizedPassage.map[start + normalizedSelection.length - 1] + 1;
+  return [originalStart, originalEnd];
+}
+
+function buildPassage(highlight: Highlight): HTMLQuoteElement {
+  const quote = document.createElement('blockquote');
+  quote.className = 'quote';
+  const passage = highlight.context?.trim() || highlight.content;
+  const range = findHighlightRange(passage, highlight.content);
+
+  if (!range) {
+    const marker = document.createElement('mark');
+    marker.textContent = highlight.content;
+    quote.append(marker);
+    if (highlight.context) quote.append(' ', highlight.context);
+    return quote;
+  }
+
+  const [start, end] = range;
+  const marker = document.createElement('mark');
+  marker.textContent = passage.slice(start, end);
+  quote.append(passage.slice(0, start), marker, passage.slice(end));
+  return quote;
+}
+
 async function loadProfiles(items: Highlight[]): Promise<Map<string, Profile>> {
   const authors = [...new Set(items.map((item) => item.author))];
   const events = await relay.query([{ kinds: [0], authors, limit: authors.length }]);
@@ -196,23 +254,7 @@ function buildSlide(highlight: Highlight, index: number): HTMLElement {
   const card = document.createElement('div');
   card.className = 'card';
 
-  const mark = document.createElement('span');
-  mark.className = 'mark';
-  mark.setAttribute('aria-hidden', 'true');
-  mark.textContent = '“';
-
-  const quote = document.createElement('blockquote');
-  quote.className = 'quote';
-  quote.textContent = highlight.content;
-
-  card.append(mark, quote);
-
-  if (highlight.context) {
-    const context = document.createElement('p');
-    context.className = 'context';
-    context.textContent = highlight.context;
-    card.append(context);
-  }
+  card.append(buildPassage(highlight));
 
   const footer = document.createElement('footer');
   footer.className = 'footer';
