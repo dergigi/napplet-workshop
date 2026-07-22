@@ -8,7 +8,7 @@
   </head>
   <body>
     <main>
-      <form id="compose">
+      <div class="composer">
         <label class="sr-only" for="note">Tweet</label>
         <textarea
           id="note"
@@ -20,9 +20,9 @@
         ></textarea>
         <div class="actions">
           <output id="status" aria-live="polite"></output>
-          <button id="send" type="submit" aria-live="polite">send tweet</button>
+          <button id="send" type="button" aria-live="polite">send tweet</button>
         </div>
-      </form>
+      </div>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>

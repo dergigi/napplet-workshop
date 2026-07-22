@@ -2,13 +2,22 @@ import '@napplet/shim';
 import { outbox } from '@napplet/sdk';
 import './styles.css';
 
+const FALLBACK_RELAYS = [
+  'wss://relay.damus.io',
+  'wss://relay.primal.net',
+  'wss://nos.lol',
+];
+const PUBLISH_OPTIONS = {
+  relays: FALLBACK_RELAYS,
+  toOutbox: false,
+} as NonNullable<Parameters<typeof outbox.publish>[1]> & { toOutbox: false };
+
 function requireElement<T extends HTMLElement>(selector: string): T {
   const element = document.querySelector<T>(selector);
   if (!element) throw new Error(`Missing element: ${selector}`);
   return element;
 }
 
-const form = requireElement<HTMLFormElement>('#compose');
 const note = requireElement<HTMLTextAreaElement>('#note');
 const send = requireElement<HTMLButtonElement>('#send');
 const status = requireElement<HTMLOutputElement>('#status');
@@ -32,8 +41,7 @@ function publishErrorMessage(error: unknown): string {
     : 'could not send';
 }
 
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
+send.addEventListener('click', () => {
   const content = note.value.trim();
   if (!content) {
     note.focus();
@@ -45,12 +53,15 @@ form.addEventListener('submit', (event) => {
   setButton('sending…', true);
 
   void outbox
-    .publish({
-      kind: 1,
-      content,
-      tags: [],
-      created_at: Math.floor(Date.now() / 1000),
-    })
+    .publish(
+      {
+        kind: 1,
+        content,
+        tags: [],
+        created_at: Math.floor(Date.now() / 1000),
+      },
+      PUBLISH_OPTIONS,
+    )
     .then((result) => {
       if (!result.ok) throw new Error(result.error ?? 'Publish failed');
       note.value = '';
