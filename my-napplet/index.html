@@ -3,58 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Napplet</title>
+    <title>Highlights</title>
   </head>
   <body>
-    <main id="app" class="app-shell">
-      <section class="workspace" aria-labelledby="app-title">
-        <header class="masthead">
-          <div>
-            <p class="eyebrow">NIP-5D napplet</p>
-            <h1 id="app-title">My Napplet</h1>
-          </div>
-          <output id="status" class="status status-idle">Ready</output>
-        </header>
+    <main id="app" class="stage">
+      <header class="chrome">
+        <p class="brand">Highlights</p>
+        <p class="meta" id="meta">kind 9802</p>
+      </header>
 
-        <section class="panel capability-panel" aria-labelledby="capability-title">
-          <h2 id="capability-title">Shell Surface</h2>
-          <dl id="capabilities" class="capability-grid"></dl>
-        </section>
-
-        <section class="panel action-panel" aria-labelledby="actions-title">
-          <h2 id="actions-title">Actions</h2>
-          <div class="button-row">
-            <button id="identityButton" type="button">Refresh identity</button>
-            <button id="storageButton" type="button">Save note</button>
-            <button id="relayButton" type="button">Query relay</button>
-            <button id="resourceButton" type="button">Load resource</button>
-            <button id="notifyButton" type="button">Notify</button>
-            <button id="settingsButton" type="button">Settings</button>
-          </div>
-        </section>
-
-        <section class="panel split-panel" aria-label="Napplet state">
-          <article>
-            <h2>Identity</h2>
-            <p id="identityValue" class="mono muted">not loaded</p>
-          </article>
-          <article>
-            <h2>Storage</h2>
-            <label class="field">
-              <span>Draft note</span>
-              <textarea id="noteInput" rows="4">Hello from my napplet.</textarea>
-            </label>
-            <p id="storageValue" class="mono muted">not saved</p>
-          </article>
-        </section>
-
-        <section class="panel output-panel" aria-labelledby="events-title">
-          <h2 id="events-title">Output</h2>
-          <pre id="output" class="output" aria-live="polite">No events yet.</pre>
-        </section>
+      <section
+        id="carousel"
+        class="carousel"
+        aria-roledescription="carousel"
+        aria-label="Recent Nostr highlights"
+        aria-live="polite"
+      >
+        <p class="state" id="state">Gathering highlights…</p>
       </section>
+
+      <div id="progress" class="progress" hidden aria-hidden="true">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <ol id="dots" class="dots" hidden aria-hidden="true"></ol>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
-

@@ -1,11 +1,13 @@
-# my-napplet
+# Highlights
 
-A small TypeScript starter for building a NIP-5D napplet with the published
-`@napplet` packages.
+A read-only NIP-5D napplet that shows an auto-playing carousel of the five most
+recent Nostr highlights ([kind 9802](https://nostrbook.dev/kinds/9802) / NIP-84).
 
-Napplets are sandboxed iframe apps. The app imports `@napplet/shim` to install
-`window.napplet`, then uses `@napplet/sdk` to ask the host shell for relay,
-identity, storage, resource, config, notification, class, and connect services.
+It loads events through `outbox.query` and never signs, stores, or opens relays
+itself. There are no controls; the carousel advances on its own.
+
+Napplets are sandboxed iframe apps. The shell injects `window.napplet`; this app
+uses `@napplet/sdk` for the outbox boundary.
 
 ## Start
 

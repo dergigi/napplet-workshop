@@ -9,7 +9,7 @@
   ],
   "defaultTarget": "named",
   "named": [
-    "my-napplet"
+    "highlights-carousel"
   ],
   "discover": {
     "enabled": true,
@@ -27,8 +27,9 @@
     "command": "kehto"
   },
   "metadata": {
-    "name": "my-napplet",
-    "title": "My Napplet",
+    "name": "highlights-carousel",
+    "title": "Highlights",
+    "description": "Auto-playing carousel of the five most recent Nostr highlights (kind 9802).",
     "archetypes": [
       {
         "slug": "note",
