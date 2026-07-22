@@ -1,5 +1,5 @@
 {
-  "name": "my-napplet",
+  "name": "send-tweet",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -24,5 +24,10 @@
     "vite-plugin-singlefile": "^2.3.3"
   },
   "packageManager": "pnpm@10.8.0",
-  "license": "MIT"
+  "license": "MIT",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
 }

@@ -3,58 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Napplet</title>
+    <title>Send Tweet</title>
   </head>
   <body>
-    <main id="app" class="app-shell">
-      <section class="workspace" aria-labelledby="app-title">
-        <header class="masthead">
-          <div>
-            <p class="eyebrow">NIP-5D napplet</p>
-            <h1 id="app-title">My Napplet</h1>
-          </div>
-          <output id="status" class="status status-idle">Ready</output>
-        </header>
-
-        <section class="panel capability-panel" aria-labelledby="capability-title">
-          <h2 id="capability-title">Shell Surface</h2>
-          <dl id="capabilities" class="capability-grid"></dl>
-        </section>
-
-        <section class="panel action-panel" aria-labelledby="actions-title">
-          <h2 id="actions-title">Actions</h2>
-          <div class="button-row">
-            <button id="identityButton" type="button">Refresh identity</button>
-            <button id="storageButton" type="button">Save note</button>
-            <button id="relayButton" type="button">Query relay</button>
-            <button id="resourceButton" type="button">Load resource</button>
-            <button id="notifyButton" type="button">Notify</button>
-            <button id="settingsButton" type="button">Settings</button>
-          </div>
-        </section>
-
-        <section class="panel split-panel" aria-label="Napplet state">
-          <article>
-            <h2>Identity</h2>
-            <p id="identityValue" class="mono muted">not loaded</p>
-          </article>
-          <article>
-            <h2>Storage</h2>
-            <label class="field">
-              <span>Draft note</span>
-              <textarea id="noteInput" rows="4">Hello from my napplet.</textarea>
-            </label>
-            <p id="storageValue" class="mono muted">not saved</p>
-          </article>
-        </section>
-
-        <section class="panel output-panel" aria-labelledby="events-title">
-          <h2 id="events-title">Output</h2>
-          <pre id="output" class="output" aria-live="polite">No events yet.</pre>
-        </section>
-      </section>
+    <main>
+      <form id="compose">
+        <label class="sr-only" for="note">Tweet</label>
+        <textarea
+          id="note"
+          name="note"
+          rows="7"
+          placeholder="What's happening?"
+          required
+          autofocus
+        ></textarea>
+        <button id="send" type="submit" aria-live="polite">send tweet</button>
+      </form>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
-
