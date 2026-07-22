@@ -18,7 +18,10 @@
           required
           autofocus
         ></textarea>
-        <button id="send" type="submit" aria-live="polite">send tweet</button>
+        <div class="actions">
+          <output id="status" aria-live="polite"></output>
+          <button id="send" type="submit" aria-live="polite">send tweet</button>
+        </div>
       </form>
     </main>
     <script type="module" src="/src/main.ts"></script>

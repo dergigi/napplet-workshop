@@ -34,6 +34,27 @@ form {
   gap: 0.75rem;
 }
 
+.actions {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+output {
+  color: #77746d;
+  font-size: 0.85rem;
+}
+
+output[data-kind="success"] {
+  color: #28764a;
+}
+
+output[data-kind="error"] {
+  color: #a5352b;
+}
+
 textarea {
   width: 100%;
   min-height: 12rem;
@@ -58,7 +79,6 @@ textarea::placeholder {
 }
 
 button {
-  justify-self: end;
   min-width: 7.5rem;
   padding: 0.72rem 1rem;
   border: 0;
@@ -122,5 +142,17 @@ button:disabled {
 
   button:hover:not(:disabled) {
     background: #d8d8d8;
+  }
+
+  output {
+    color: #aaa7a0;
+  }
+
+  output[data-kind="success"] {
+    color: #75c896;
+  }
+
+  output[data-kind="error"] {
+    color: #ef8d83;
   }
 }
